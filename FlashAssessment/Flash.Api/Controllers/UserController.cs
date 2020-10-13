@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using Flash.Api.DtoModels;
+using Flash.DomainModels;
 using Flash.Services.Contract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Net.Mime;
 using System.Threading.Tasks;
+using Domain = Flash.DomainModels;
 using Dto = Flash.Api.DtoModels;
 
 namespace Flash.Api.Controllers
@@ -22,10 +26,38 @@ namespace Flash.Api.Controllers
         }
 
         [HttpGet, Route("{id}")]
-        public async Task<ActionResult<Dto.User>> GetUser(int id)
+        public async Task<IActionResult> GetUser(int id)
         {
             var target = await _userService.GetUserAsync(id);
             return Ok(new Response<Dto.User>(_mapper.Map<Dto.User>(target)));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUsers([FromQuery] PaginationQuery pagination)
+        {
+            var paginationFilter = _mapper.Map<PaginationFilter>(pagination);
+            var results = await _userService.GetUsersAsync(paginationFilter);
+            var resultsDto = _mapper.Map<IEnumerable<Dto.User>>(results);
+
+            return Ok(new PagedResponse<Dto.User>(resultsDto, paginationFilter.PageNumber, paginationFilter.PageSize));
+        }
+
+        [HttpPost, Consumes(MediaTypeNames.Application.Json), ProducesResponseType(201)]
+        public async Task<IActionResult> AddUser(Dto.User userDto)
+        {
+            var user = _mapper.Map<Domain.User>(userDto);
+            var result = await _userService.AddUserAsync(user);
+
+            return Ok(new Response<Dto.User>(_mapper.Map<Dto.User>(result)));
+        }
+
+        [HttpPut, Route("{id}"), Consumes(MediaTypeNames.Application.Json), ProducesResponseType(200)]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody]Dto.User userDto)
+        {
+            var user = _mapper.Map<Domain.User>(userDto);
+            var result = await _userService.UpdateUserAsync(id, user);
+
+            return Ok(new Response<Dto.User>(_mapper.Map<Dto.User>(result)));
         }
     }
 }

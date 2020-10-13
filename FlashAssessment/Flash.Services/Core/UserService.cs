@@ -2,6 +2,7 @@
 using Flash.DAL.Contract;
 using Flash.DomainModels;
 using Flash.Services.Contract;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -25,14 +26,19 @@ namespace Flash.Services.Core
             return _store.GetAsync(id);
         }
 
-        public Task<IEnumerable<User>> GetUsersAsync(PaginationFilter pagination)
+        public Task<IEnumerable<User>> GetUsersAsync(PaginationFilter pagination = null)
         {
-            return _store.GetAsync(pagination);
+            return _store.GetAllAsync(pagination);
         }
 
-        public async Task<User> UpdateUserAsync(User user)
+        public async Task<User> UpdateUserAsync(int id, User user)
         {
-            throw new System.NotImplementedException();
+            if (id != user.Id)
+            {
+                throw new InvalidOperationException($"{nameof(UpdateUserAsync)}");
+            }
+
+            return await _store.UpdateAsync(user);
         }
     }
 }

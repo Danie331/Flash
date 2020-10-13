@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data = Flash.DAL.Datacontext.Models;
+using System.Linq;
 
 namespace Flash.DAL.Core
 {
@@ -33,7 +34,7 @@ namespace Flash.DAL.Core
 
                 await _context.SaveChangesAsync();
 
-                return await GetAsync(workItem.Id);
+                return await GetAsync(dto.Id);
             }
             catch (Exception ex)
             {
@@ -59,15 +60,28 @@ namespace Flash.DAL.Core
             }
         }
 
-        public async Task<IEnumerable<WorkItem>> GetAsync()
+        public async Task<IEnumerable<WorkItem>> GetAllAsync(PaginationFilter filter = null)
         {
             try
             {
-                var records = await _context.WorkItem.Include(x => x.Status)
+                List<Data.WorkItem> results = null;
+                if (filter == null)
+                {
+                    results = await _context.WorkItem.Include(x => x.Status)
                                                      .Include(x => x.User)
                                                      .AsNoTracking().ToListAsync();
+                }
+                else
+                {
+                    var recordsToSkip = (filter.PageNumber - 1) * filter.PageSize;
+                    results = await _context.WorkItem.Include(x => x.Status)
+                                                     .Include(x => x.User)
+                                                     .Skip(recordsToSkip)
+                                                     .Take(filter.PageSize)
+                                                     .AsNoTracking().ToListAsync();
+                }
 
-                return _mapper.Map<IEnumerable<WorkItem>>(records);
+                return _mapper.Map<IEnumerable<WorkItem>>(results);
             }
             catch (Exception ex)
             {

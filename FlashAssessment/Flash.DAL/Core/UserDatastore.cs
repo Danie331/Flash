@@ -6,6 +6,7 @@ using Flash.DomainModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Data = Flash.DAL.Datacontext.Models;
 
@@ -32,7 +33,7 @@ namespace Flash.DAL.Core
 
                 await _context.SaveChangesAsync();
 
-                return await GetAsync(user.Id);
+                return await GetAsync(dto.Id);
             }
             catch (Exception ex)
             {
@@ -41,13 +42,26 @@ namespace Flash.DAL.Core
             }
         }
 
-        public async Task<IEnumerable<User>> GetAsync(PaginationFilter pagination)
+        public async Task<IEnumerable<User>> GetAllAsync(PaginationFilter filter = null)
         {
             try
             {
-                var records = await _context.User.Include(x => x.Team).AsNoTracking().ToListAsync();
+                List<Data.User> results = null;
+                if (filter == null)
+                {
+                    results = await _context.User.Include(x => x.Team).AsNoTracking().ToListAsync();
+                }
+                else
+                {
+                    var recordsToSkip = (filter.PageNumber - 1) * filter.PageSize;
+                    results = await _context.User.Include(x => x.Team)
+                                                 .Skip(recordsToSkip)
+                                                 .Take(filter.PageSize)
+                                                 .AsNoTracking().ToListAsync();
+                }
+                                                 
 
-                return _mapper.Map<IEnumerable<User>>(records);
+                return _mapper.Map<IEnumerable<User>>(results);
             }
             catch (Exception ex)
             {
@@ -83,7 +97,7 @@ namespace Flash.DAL.Core
 
                 await _context.SaveChangesAsync();
 
-                return await GetAsync(user.Id);
+                return await GetAsync(userRecord.Id);
             }
             catch (Exception ex)
             {

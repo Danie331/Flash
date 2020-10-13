@@ -1,36 +1,51 @@
 ﻿
+using Flash.DAL.Contract;
 using Flash.DomainModels;
 using Flash.Services.Contract;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Flash.Services.Core
 {
     public class WorkItemService : IWorkItemService
     {
-        public async Task<WorkItem> AddWorkItemAsync(WorkItem workItem)
+        private readonly IUserWorkItemDatastore _store;
+        public WorkItemService(IUserWorkItemDatastore store)
         {
-            throw new System.NotImplementedException();
+            _store = store;
         }
 
-        public async Task<WorkItem> GetWorkItemAsync(int id)
+        public Task<WorkItem> AddWorkItemAsync(WorkItem workItem)
         {
-            throw new System.NotImplementedException();
+            return _store.AddAsync(workItem);
         }
 
-        public async Task<IEnumerable<WorkItem>> GetWorkItemsAsync(PaginationFilter pagination)
+        public Task<WorkItem> GetWorkItemAsync(int id)
         {
-            throw new System.NotImplementedException();
+            return _store.GetAsync(id);
+        }
+
+        public Task<IEnumerable<WorkItem>> GetWorkItemsAsync(PaginationFilter pagination)
+        {
+            return _store.GetAllAsync(pagination);
         }
 
         public async Task<IEnumerable<WorkItem>> GetWorkItemsByStatusAsync(int statusId, PaginationFilter pagination)
         {
-            throw new System.NotImplementedException();
+            var workItems = await _store.GetAllAsync(pagination);
+            return workItems.Where(w => w.Status.Id == statusId); // If using repository pattern, this could be delegated to the database.
         }
 
-        public async Task<WorkItem> UpdateWorkItemAsync(WorkItem workItem)
+        public async Task<WorkItem> UpdateWorkItemAsync(int id, WorkItem workItem)
         {
-            throw new System.NotImplementedException();
+            if (id != workItem.Id)
+            {
+                throw new InvalidOperationException($"{nameof(UpdateWorkItemAsync)}");
+            }
+
+            return await _store.UpdateAsync(workItem);
         }
     }
 }

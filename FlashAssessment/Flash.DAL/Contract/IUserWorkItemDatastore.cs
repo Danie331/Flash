@@ -8,7 +8,7 @@ namespace Flash.DAL.Contract
     public interface IUserWorkItemDatastore
     {
         Task<WorkItem> GetAsync(int id);
-        Task<IEnumerable<WorkItem>> GetAsync();
+        Task<IEnumerable<WorkItem>> GetAllAsync(PaginationFilter filter = null);
         Task<WorkItem> UpdateAsync(WorkItem workItem);
         Task<WorkItem> AddAsync(WorkItem workItem);
     }
