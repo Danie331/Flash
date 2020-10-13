@@ -1,7 +1,7 @@
 ﻿
 namespace Flash.DAL.Datacontext.Models
 {
-    public partial class WorkItem
+    class WorkItem
     {
         public int Id { get; set; }
         public string ItemDescription { get; set; }

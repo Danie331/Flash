@@ -15,10 +15,10 @@ namespace Flash.DAL.Datacontext
         {
         }
 
-        public virtual DbSet<Team> Team { get; set; }
-        public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<WorkItem> WorkItem { get; set; }
-        public virtual DbSet<WorkItemStatus> WorkItemStatus { get; set; }
+        internal virtual DbSet<Team> Team { get; set; }
+        internal virtual DbSet<User> User { get; set; }
+        internal virtual DbSet<WorkItem> WorkItem { get; set; }
+        internal virtual DbSet<WorkItemStatus> WorkItemStatus { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

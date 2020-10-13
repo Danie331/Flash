@@ -2,7 +2,7 @@
 
 namespace Flash.DAL.Datacontext.Models
 {
-    public partial class WorkItemStatus
+    class WorkItemStatus
     {
         public WorkItemStatus()
         {

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Flash.DAL.Datacontext.Configuration
 {
-    public class WorkItemEntityTypeConfiguration : IEntityTypeConfiguration<WorkItem>
+    class WorkItemEntityTypeConfiguration : IEntityTypeConfiguration<WorkItem>
     {
         public void Configure(EntityTypeBuilder<WorkItem> builder)
         {

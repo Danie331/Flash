@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Flash.DAL.Datacontext.Models
 {
-    public partial class User
+    class User
     {
         public User()
         {

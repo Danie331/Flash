@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Flash.DAL.Datacontext.Configuration
 {
-    public class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
+    class UserEntityTypeConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {

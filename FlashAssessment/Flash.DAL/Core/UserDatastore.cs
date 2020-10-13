@@ -41,7 +41,7 @@ namespace Flash.DAL.Core
             }
         }
 
-        public async Task<IEnumerable<User>> GetAsync()
+        public async Task<IEnumerable<User>> GetAsync(PaginationFilter pagination)
         {
             try
             {

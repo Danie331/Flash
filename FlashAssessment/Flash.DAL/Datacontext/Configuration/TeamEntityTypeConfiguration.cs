@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Flash.DAL.Datacontext.Configuration
 {
-    public class TeamEntityTypeConfiguration : IEntityTypeConfiguration<Team>
+    class TeamEntityTypeConfiguration : IEntityTypeConfiguration<Team>
     {
         public void Configure(EntityTypeBuilder<Team> builder)
         {
