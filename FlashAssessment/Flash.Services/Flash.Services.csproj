@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -7,6 +7,11 @@
   <ItemGroup>
     <Folder Include="Contract\" />
     <Folder Include="Core\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Flash.DAL\Flash.DAL.csproj" />
+    <ProjectReference Include="..\Flash.DomainModels\Flash.DomainModels.csproj" />
   </ItemGroup>
 
 </Project>
