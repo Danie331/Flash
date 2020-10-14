@@ -35,7 +35,7 @@ namespace Flash.Services.Core
         {
             if (id != user.Id)
             {
-                throw new InvalidOperationException($"{nameof(UpdateUserAsync)}");
+                throw new InvalidOperationException($"Mismatching resource IDs in {nameof(UpdateUserAsync)}");
             }
 
             return await _store.UpdateAsync(user);

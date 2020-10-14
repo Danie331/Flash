@@ -1,6 +1,4 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using Flash.DAL.Contract;
 using Flash.DAL.Datacontext;
 using Flash.DomainModels;
@@ -103,6 +101,38 @@ namespace Flash.DAL.Core
                 await _context.SaveChangesAsync();
 
                 return await GetAsync(workItem.Id);
+            }
+            catch (Exception ex)
+            {
+                // Log ex
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<WorkItem>> GetByStatusAsync(int statusId, PaginationFilter filter = null)
+        {
+            try
+            {
+                List<Data.WorkItem> results = null;
+                if (filter == null)
+                {
+                    results = await _context.WorkItem.Include(x => x.Status)
+                                                     .Include(x => x.User)
+                                                     .Where(x => x.StatusId == statusId)
+                                                     .AsNoTracking().ToListAsync();
+                }
+                else
+                {
+                    var recordsToSkip = (filter.PageNumber - 1) * filter.PageSize;
+                    results = await _context.WorkItem.Include(x => x.Status)
+                                                     .Include(x => x.User)
+                                                     .Where(x => x.StatusId == statusId)
+                                                     .Skip(recordsToSkip)
+                                                     .Take(filter.PageSize)
+                                                     .AsNoTracking().ToListAsync();
+                }
+
+                return _mapper.Map<IEnumerable<WorkItem>>(results);
             }
             catch (Exception ex)
             {

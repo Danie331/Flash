@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Flash.Api.DtoModels;
-using Flash.DomainModels;
 using Flash.Services.Contract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +10,7 @@ using Dto = Flash.Api.DtoModels;
 
 namespace Flash.Api.Controllers
 {
-    [AllowAnonymous, Route("users"), ApiController]
+    [AllowAnonymous, Route("v1/users"), ApiController]
     public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -29,17 +27,17 @@ namespace Flash.Api.Controllers
         public async Task<IActionResult> GetUser(int id)
         {
             var target = await _userService.GetUserAsync(id);
-            return Ok(new Response<Dto.User>(_mapper.Map<Dto.User>(target)));
+            return Ok(new Dto.Response<Dto.User>(_mapper.Map<Dto.User>(target)));
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers([FromQuery] PaginationQuery pagination)
+        public async Task<IActionResult> GetUsers([FromQuery] Dto.PaginationQuery pagination)
         {
-            var paginationFilter = _mapper.Map<PaginationFilter>(pagination);
+            var paginationFilter = _mapper.Map<Domain.PaginationFilter>(pagination);
             var results = await _userService.GetUsersAsync(paginationFilter);
             var resultsDto = _mapper.Map<IEnumerable<Dto.User>>(results);
 
-            return Ok(new PagedResponse<Dto.User>(resultsDto, paginationFilter.PageNumber, paginationFilter.PageSize));
+            return Ok(new Dto.PagedResponse<Dto.User>(resultsDto, paginationFilter.PageNumber, paginationFilter.PageSize));
         }
 
         [HttpPost, Consumes(MediaTypeNames.Application.Json), ProducesResponseType(201)]
@@ -48,7 +46,7 @@ namespace Flash.Api.Controllers
             var user = _mapper.Map<Domain.User>(userDto);
             var result = await _userService.AddUserAsync(user);
 
-            return Ok(new Response<Dto.User>(_mapper.Map<Dto.User>(result)));
+            return Ok(new Dto.Response<Dto.User>(_mapper.Map<Dto.User>(result)));
         }
 
         [HttpPut, Route("{id}"), Consumes(MediaTypeNames.Application.Json), ProducesResponseType(200)]
@@ -57,7 +55,7 @@ namespace Flash.Api.Controllers
             var user = _mapper.Map<Domain.User>(userDto);
             var result = await _userService.UpdateUserAsync(id, user);
 
-            return Ok(new Response<Dto.User>(_mapper.Map<Dto.User>(result)));
+            return Ok(new Dto.Response<Dto.User>(_mapper.Map<Dto.User>(result)));
         }
     }
 }

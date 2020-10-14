@@ -1,4 +1,5 @@
 using AutoMapper;
+using Flash.Api.Middleware;
 using Flash.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,7 +37,7 @@ namespace Flash.Api
 
             services.AddAutoMapper(GetType().Assembly, typeof(DAL.Automapper.AutoMapperProfile).Assembly);
 
-            services.AddSwaggerDocument();
+            services.AddSwaggerDocument(settings => settings.Title = "Flash Assessment Part III");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,19 +46,20 @@ namespace Flash.Api
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseOpenApi();
+                app.UseSwaggerUi3();
             }
 
             app.UseRouting();
 
             app.UseCors("CorsDevMode");
 
+            app.UseMiddleware<ExceptionMiddleware>();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
-
-            app.UseOpenApi();
-            app.UseSwaggerUi3();
         }
     }
 }
