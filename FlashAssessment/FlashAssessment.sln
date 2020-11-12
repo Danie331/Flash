@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.Api1", "Flash.Api\Flash.Api1.csproj", "{8E743F23-6681-4B2B-B995-70B313DE4E67}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Flash.Database", "Flash.Database\Flash.Database.sqlproj", "{488E4A00-7F3A-4523-BFB7-AFFCCE4D80E4}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Flash.Database1", "Flash.Database\Flash.Database1.sqlproj", "{488E4A00-7F3A-4523-BFB7-AFFCCE4D80E4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flash.DAL", "Flash.DAL\Flash.DAL.csproj", "{7DE8A647-821C-41CC-9155-BA584A785494}"
 EndProject
