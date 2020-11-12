@@ -1,7 +1,7 @@
 ﻿
 using System.Collections.Generic;
 
-namespace Flash.Api.DtoModels
+namespace Flash.Api.DtoModels.Response
 {
     public class PagedResponse<T>
     {

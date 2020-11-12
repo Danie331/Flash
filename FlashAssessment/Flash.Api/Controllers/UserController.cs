@@ -10,7 +10,7 @@ using Dto = Flash.Api.DtoModels;
 
 namespace Flash.Api.Controllers
 {
-    [AllowAnonymous, Route("v1/users"), ApiController]
+    [Route("api/[controller]"), Produces("application/json"), ApiController]
     public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;

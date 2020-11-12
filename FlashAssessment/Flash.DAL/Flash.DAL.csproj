@@ -23,4 +23,9 @@
     <ProjectReference Include="..\Flash.DomainModels\Flash.DomainModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Automapper\DomainToDataProfile\" />
+    <Folder Include="Automapper\DataToDomainProfile\" />
+  </ItemGroup>
+
 </Project>

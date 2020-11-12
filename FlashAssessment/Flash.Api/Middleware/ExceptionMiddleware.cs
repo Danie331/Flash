@@ -1,9 +1,9 @@
 ﻿
+using Flash.Services.Contract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Flash.Api.Middleware
@@ -12,9 +12,13 @@ namespace Flash.Api.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionMiddleware> _logger;
+        private readonly IExceptionManagementService _exceptionService;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+        public ExceptionMiddleware(RequestDelegate next,
+                                   IExceptionManagementService exceptionService,
+                                   ILogger<ExceptionMiddleware> logger)
         {
+            _exceptionService = exceptionService;
             _logger = logger;
             _next = next;
         }
@@ -27,14 +31,14 @@ namespace Flash.Api.Middleware
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(httpContext, ex.Message);
+                await HandleExceptionAsync(httpContext, ex);
             }
         }
 
-        private Task HandleExceptionAsync(HttpContext context, string responseMessage)
+        private Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
+            
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             return context.Response.WriteAsync(JsonConvert.SerializeObject(new
             {

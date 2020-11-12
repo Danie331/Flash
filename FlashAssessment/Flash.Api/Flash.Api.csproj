@@ -19,4 +19,9 @@
     <ProjectReference Include="..\Flash.Services\Flash.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Automapper\ResponseProfile\" />
+    <Folder Include="Automapper\RequestProfile\" />
+  </ItemGroup>
+
 </Project>
