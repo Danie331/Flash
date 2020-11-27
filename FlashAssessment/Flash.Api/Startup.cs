@@ -1,15 +1,14 @@
 using AutoMapper;
-using Flash.Api.Middleware;
+using Flash.Api1.Middleware;
 using Flash.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Flash.Api
+namespace Flash.Api1
 {
     public class Startup
     {
@@ -35,7 +34,13 @@ namespace Flash.Api
                     .AddJsonOptions(opt => opt.JsonSerializerOptions.PropertyNamingPolicy = null)
                     .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            services.AddAutoMapper(GetType().Assembly, typeof(DAL.Automapper.AutoMapperProfile).Assembly);
+            services.AddDistributedRedisCache(option =>
+            {
+                option.Configuration = "127.0.0.1";
+                option.InstanceName = "master";
+            });
+
+            services.AddAutoMapper(GetType().Assembly, typeof(DAL.Automapper.DataToDomainProfile).Assembly);
 
             services.AddSwaggerDocument(settings => settings.Title = "Flash Assessment Part III");
         }

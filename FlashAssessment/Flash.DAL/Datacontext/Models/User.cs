@@ -1,21 +1,14 @@
 ﻿
-using System.Collections.Generic;
+using ProtoBuf;
 
 namespace Flash.DAL.Datacontext.Models
 {
-    class User
+    [ProtoContract]
+    public class User
     {
-        public User()
-        {
-            WorkItem = new HashSet<WorkItem>();
-        }
-
+        [ProtoMember(1)]
         public int Id { get; set; }
+        [ProtoMember(2)]
         public string Name { get; set; }
-        public string Email { get; set; }
-        public int TeamId { get; set; }
-
-        public virtual Team Team { get; set; }
-        public virtual ICollection<WorkItem> WorkItem { get; set; }
     }
 }

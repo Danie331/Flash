@@ -1,5 +1,5 @@
 ﻿
-namespace Flash.Api.DtoModels.Response
+namespace Flash.Api1.DtoModels.Response
 {
     public class Response<T>
     {

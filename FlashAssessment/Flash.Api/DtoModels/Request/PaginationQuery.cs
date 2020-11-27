@@ -1,5 +1,5 @@
 ﻿
-namespace Flash.Api.DtoModels.Request
+namespace Flash.Api1.DtoModels.Request
 {
     public class PaginationQuery
     {

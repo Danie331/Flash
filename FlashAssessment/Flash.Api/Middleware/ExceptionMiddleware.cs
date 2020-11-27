@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
-namespace Flash.Api.Middleware
+namespace Flash.Api1.Middleware
 {
     public class ExceptionMiddleware
     {
@@ -36,14 +36,12 @@ namespace Flash.Api.Middleware
         }
 
         private Task HandleExceptionAsync(HttpContext context, Exception exception)
-        {
-            
+        {            
             context.Response.ContentType = "application/json";
-
             return context.Response.WriteAsync(JsonConvert.SerializeObject(new
             {
                 context.Response.StatusCode,
-                Message = $"Internal Server Error: {responseMessage}"
+                Message = $"Internal Server Error: {_exceptionService.FormatOutput(exception)}"
             }));
         }
     }

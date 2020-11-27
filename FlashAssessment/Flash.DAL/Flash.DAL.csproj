@@ -16,7 +16,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="protobuf-net" Version="3.0.62" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,8 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Automapper\DomainToDataProfile\" />
-    <Folder Include="Automapper\DataToDomainProfile\" />
+    <Folder Include="Datacontext\Configuration\" />
   </ItemGroup>
 
 </Project>
