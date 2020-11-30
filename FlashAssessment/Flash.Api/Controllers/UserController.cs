@@ -2,6 +2,7 @@
 using Flash.Services.Contract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -10,17 +11,27 @@ using Dto = Flash.Api.DtoModels;
 
 namespace Flash.Api.Controllers
 {
-    [AllowAnonymous, Route("v1/users"), ApiController]
+    [AllowAnonymous, Route("users"), ApiController]
     public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
+        private IConfiguration _configuration;
 
         public UserController(IUserService userService,
-                              IMapper mapper)
+                              IMapper mapper,
+                              IConfiguration configuration)
         {
             _userService = userService;
             _mapper = mapper;
+            _configuration = configuration;
+        }
+
+        [HttpGet, Route("env")]
+        public IActionResult GetEnvironment()
+        {
+            var env = _configuration.GetSection("Default").Value;
+            return Ok(env);
         }
 
         [HttpGet, Route("{id}")]
